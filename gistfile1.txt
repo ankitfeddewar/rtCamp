@@ -1,0 +1,52 @@
+package advance;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.Test;
+
+public class RtDemo {
+	@Test
+	public static void method() throws Exception {
+		WebDriver driver = new FirefoxDriver();
+		driver.get("http://demo.rtmedia.io/");
+		driver.findElement(By.xpath("//input[@type='text']")).sendKeys("demo");
+		// driver.findElement(By.xpath("//input[@type='text']")).sendKeys("demo2222");
+		// by sending wrong user name it will not login we can
+		driver.findElement(By.xpath("//input[@type='password']")).sendKeys(
+				"demo");
+		// driver.findElement(By.xpath("//input[@type='password']")).sendKeys("demo34");
+		// same as user name if password is wrong it will not login
+		driver.findElement(By.xpath("//input[@type='submit']")).click();
+		driver.findElement(By.xpath("//textarea [@id='whats-new']")).click();
+		WebElement ele = driver.findElement(By.id("whats-new-post-in"));
+		Select sele = new Select(ele);
+		sele.selectByVisibleText("My Profile");
+		driver.findElement(By.xpath("//button[@id='rtmedia-add-media-button-post-update']"))
+				.click();
+		StringSelection ss = new StringSelection("F:\\aa.jpg");
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+
+		Robot robot = new Robot();
+		Thread.sleep(3000);
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_V);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+		robot.keyRelease(KeyEvent.VK_V);
+		Thread.sleep(3000);
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//input[@id='aw-whats-new-submit']")).click();
+		driver.close();
+		driver.quit();
+	}
+}
